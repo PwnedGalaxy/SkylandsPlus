@@ -10,6 +10,7 @@ import uk.co.jacekk.bukkit.skylandsplus.listeners.MobSpawnListener;
 import uk.co.jacekk.bukkit.skylandsplus.listeners.PhysicsListener;
 
 public class SkylandsPlus extends BasePlugin {
+    private PlayerMovementWorker worker;
 	
 	public void onEnable(){
 		super.onEnable(true);
@@ -24,6 +25,8 @@ public class SkylandsPlus extends BasePlugin {
 			this.pluginManager.registerEvents(new MobSpawnListener(this), this);
 		}
                 
+            this.worker = new PlayerMovementWorker(this);
+            this.getServer().getScheduler().scheduleSyncRepeatingTask(this, this.worker, 0, 1);
             this.getServer().getScheduler().scheduleSyncDelayedTask(this, new WorldLoadWorker(this));
 
 	}
