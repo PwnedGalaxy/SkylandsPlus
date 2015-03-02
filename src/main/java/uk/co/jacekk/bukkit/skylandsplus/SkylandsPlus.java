@@ -23,6 +23,9 @@ public class SkylandsPlus extends BasePlugin {
 		if (this.config.getBoolean(Config.RESTRICT_MOB_SPAWNING)){
 			this.pluginManager.registerEvents(new MobSpawnListener(this), this);
 		}
+                
+            this.getServer().getScheduler().scheduleSyncDelayedTask(this, new WorldLoadWorker(this));
+
 	}
 	
 	@Override
@@ -30,7 +33,6 @@ public class SkylandsPlus extends BasePlugin {
 		if(id == null || id.isEmpty()){
 			id = "offset=0";
 		}
-		
 		return new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator(id);
 	}
 	
