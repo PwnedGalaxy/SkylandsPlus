@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_7_R4.Block;
-import net.minecraft.server.v1_7_R4.Blocks;
-import net.minecraft.server.v1_7_R4.NoiseGeneratorOctaves;
-import net.minecraft.server.v1_7_R4.WorldGenCanyon;
-import net.minecraft.server.v1_7_R4.WorldGenCaves;
-import net.minecraft.server.v1_7_R4.WorldGenCavesHell;
-import net.minecraft.server.v1_7_R4.WorldGenMineshaft;
-import net.minecraft.server.v1_7_R4.WorldGenNether;
-import net.minecraft.server.v1_7_R4.WorldGenStronghold;
-import net.minecraft.server.v1_7_R4.WorldGenVillage;
-import net.minecraft.server.v1_7_R4.WorldGenLargeFeature;
+import net.minecraft.server.v1_8_R1.Block;
+import net.minecraft.server.v1_8_R1.Blocks;
+import net.minecraft.server.v1_8_R1.ChunkSnapshot;
+import net.minecraft.server.v1_8_R1.IChunkProvider;
+import net.minecraft.server.v1_8_R1.NoiseGeneratorOctaves;
+import net.minecraft.server.v1_8_R1.WorldGenCanyon;
+import net.minecraft.server.v1_8_R1.WorldGenCaves;
+import net.minecraft.server.v1_8_R1.WorldGenCavesHell;
+import net.minecraft.server.v1_8_R1.WorldGenMineshaft;
+import net.minecraft.server.v1_8_R1.WorldGenNether;
+import net.minecraft.server.v1_8_R1.WorldGenStronghold;
+import net.minecraft.server.v1_8_R1.WorldGenVillage;
+import net.minecraft.server.v1_8_R1.WorldGenLargeFeature;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
@@ -281,7 +283,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			break;
 			
 			case THE_END:
-				blockType = Blocks.WHITESTONE;
+				blockType = Blocks.END_STONE;
 			break;
 			
 			default:
@@ -432,7 +434,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 					b1 = Blocks.NETHERRACK;
 					b2 = Blocks.NETHERRACK;
 				}else if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_SHORE){
-					b1 = Blocks.MYCEL;
+					b1 = Blocks.MYCELIUM;
 					b2 = Blocks.DIRT;
 				}else{
 					b1 = Blocks.GRASS;
@@ -494,7 +496,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			}
 		}
 		
-		net.minecraft.server.v1_7_R4.World mcWorld = ((CraftWorld) world).getHandle();
+		net.minecraft.server.v1_8_R1.World mcWorld = ((CraftWorld) world).getHandle();
 		
 		Block[] blocks = new Block[65536];
 		
@@ -502,27 +504,30 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		
 		this.shapeLand(world, chunkX, chunkZ, blocks);
 		
+                IChunkProvider provider = ((CraftWorld) world).getHandle().chunkProviderServer;
+                ChunkSnapshot cs = new ChunkSnapshot();
+                
 		if (environment == Environment.NORMAL){
-			this.caveGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+			this.caveGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			
 			if (canyon == true){
-				this.canyonGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.canyonGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			}
 			if (stronghold == true){
-				this.strongholdGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.strongholdGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			}
 			if (mineshaft == true){
-				this.mineshaftGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.mineshaftGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			}
 			if (village == true){
-				this.villageGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.villageGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			}
 			if (largefeature == true){
-				this.largefeatureGen.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+				this.largefeatureGen.a(provider, mcWorld, chunkX, chunkZ, cs);
 			}
 		}else if (environment == Environment.NETHER){
-			this.caveGenNether.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
-			this.genNetherFort.a(mcWorld.chunkProvider, mcWorld, chunkX, chunkZ, blocks);
+			this.caveGenNether.a(provider, mcWorld, chunkX, chunkZ, cs);
+			this.genNetherFort.a(provider, mcWorld, chunkX, chunkZ, cs);
 		}
 		
 		this.decorateLand(chunkX, chunkZ, blocks, biomes);
