@@ -4,13 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.skylandsplus.SkylandsPlus;
 import uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator;
 
 public class PhysicsListener extends BaseListener<SkylandsPlus> {
-	
+    
 	public PhysicsListener(SkylandsPlus plugin){
 		super(plugin);
 	}
@@ -25,5 +27,12 @@ public class PhysicsListener extends BaseListener<SkylandsPlus> {
 			}
 		}
 	}
-	
+    
+    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    public void preventFallDamage(EntityDamageEvent event) {
+        if (this.plugin.fallingEntities.contains(event.getEntity()) && event.getCause() == DamageCause.FALL) {
+            this.plugin.fallingEntities.remove(event.getEntity());
+            event.setCancelled(true);
+        }
+    }
 }

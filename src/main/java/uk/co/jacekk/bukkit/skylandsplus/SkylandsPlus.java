@@ -1,6 +1,9 @@
 package uk.co.jacekk.bukkit.skylandsplus;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.entity.Entity;
 
 import org.bukkit.generator.ChunkGenerator;
 
@@ -11,6 +14,7 @@ import uk.co.jacekk.bukkit.skylandsplus.listeners.PhysicsListener;
 
 public class SkylandsPlus extends BasePlugin {
     private PlayerMovementWorker worker;
+    public List<Entity> fallingEntities = new ArrayList<Entity>();
 	
 	public void onEnable(){
 		super.onEnable(true);

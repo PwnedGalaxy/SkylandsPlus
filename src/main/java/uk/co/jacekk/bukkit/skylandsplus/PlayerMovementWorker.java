@@ -44,6 +44,9 @@ public class PlayerMovementWorker implements Runnable {
             targetLoc.setPitch(loc.getPitch());
             targetLoc.setYaw(loc.getYaw());
             player.teleport(targetLoc);
+            if (!this.plugin.fallingEntities.contains(player)) {
+                this.plugin.fallingEntities.add(player);
+            }
         }
     }
         
@@ -67,6 +70,9 @@ public class PlayerMovementWorker implements Runnable {
             targetLoc.setPitch(loc.getPitch());
             targetLoc.setYaw(loc.getYaw());
             player.teleport(targetLoc);
+            if (!this.plugin.fallingEntities.contains(player)) {
+                this.plugin.fallingEntities.add(player);
+            }
         }
     }
 }
