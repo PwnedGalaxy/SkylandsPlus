@@ -37,14 +37,16 @@ public class WorldLoadWorker implements Runnable {
             if (level.endsWith("_skylands")) {
                 return;
             }
-            
-            WorldCreator wc = new WorldCreator(level+"_skylands");
+
+            String skylandsLevelName = level+"_skylands";
+            WorldCreator wc = new WorldCreator(skylandsLevelName);
             wc = wc.seed(this.plugin.getServer().getWorld(level).getSeed());
             wc = wc.generator(new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator("offset=128,village,canyon,mineshaft,village,largefeatures,mushroom,swampland"));
             wc = wc.environment(World.Environment.NORMAL);
             wc = wc.type(WorldType.NORMAL);
             wc = wc.generateStructures(true);
             this.plugin.getServer().createWorld(wc);
+            this.plugin.timeSyncTable.put(world, this.plugin.getServer().getWorld(skylandsLevelName));
         }
     }
 }

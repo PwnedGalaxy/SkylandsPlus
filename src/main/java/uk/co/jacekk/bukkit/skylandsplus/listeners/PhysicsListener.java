@@ -1,11 +1,15 @@
 package uk.co.jacekk.bukkit.skylandsplus.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerBedEnterEvent;
+import static sun.audio.AudioPlayer.player;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.skylandsplus.SkylandsPlus;
@@ -34,5 +38,19 @@ public class PhysicsListener extends BaseListener<SkylandsPlus> {
             this.plugin.fallingEntities.remove(event.getEntity());
             event.setCancelled(true);
         }
+    }
+    
+    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
+    public void preventSkylandsSleep(PlayerBedEnterEvent event) {
+        Location loc = event.getPlayer().getLocation();
+        if (loc.getWorld().getEnvironment() != World.Environment.NORMAL || (
+                !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator)
+                && !loc.getWorld().getName().endsWith("_skylands")
+                )) {
+            return;
+        }
+        
+        event.getBed().getLocation().getWorld().createExplosion(event.getBed().getLocation(), 1f);
+        event.setCancelled(true);
     }
 }
