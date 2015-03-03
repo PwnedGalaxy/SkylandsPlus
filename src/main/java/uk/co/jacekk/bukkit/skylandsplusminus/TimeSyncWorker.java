@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.jacekk.bukkit.skylandsplus;
+package uk.co.jacekk.bukkit.skylandsplusminus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +14,9 @@ import org.bukkit.World;
  * @author sl
  */
 public class TimeSyncWorker implements Runnable {
-    private SkylandsPlus plugin;
+    private SkylandsPlusMinus plugin;
 
-    public TimeSyncWorker(SkylandsPlus plugin) {
+    public TimeSyncWorker(SkylandsPlusMinus plugin) {
         this.plugin = plugin;
     }
     

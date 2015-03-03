@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.jacekk.bukkit.skylandsplus;
+package uk.co.jacekk.bukkit.skylandsplusminus;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
  * @author sl
  */
 public class PlayerMovementWorker implements Runnable {
-    private SkylandsPlus plugin;
+    private SkylandsPlusMinus plugin;
 
-    public PlayerMovementWorker(SkylandsPlus plugin) {
+    public PlayerMovementWorker(SkylandsPlusMinus plugin) {
         this.plugin = plugin;
     }
     
@@ -30,7 +30,7 @@ public class PlayerMovementWorker implements Runnable {
     public void testForSkylandsWarp(Player player) {
         Location loc = player.getLocation();
         if (loc.getWorld().getEnvironment() != World.Environment.NORMAL
-                || loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator
+                || loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator
                 || loc.getWorld().getName().endsWith("_skylands")) {
             return;
         }
@@ -53,7 +53,7 @@ public class PlayerMovementWorker implements Runnable {
     public void testForOverworldWarp(Player player) {
         Location loc = player.getLocation();
         if (loc.getWorld().getEnvironment() != World.Environment.NORMAL || (
-                !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator)
+                !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator)
                 && !loc.getWorld().getName().endsWith("_skylands")
                 )) {
             return;
