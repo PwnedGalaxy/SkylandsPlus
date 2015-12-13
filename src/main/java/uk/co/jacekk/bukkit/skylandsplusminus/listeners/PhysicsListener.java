@@ -5,10 +5,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.skylandsplusminus.SkylandsPlusMinus;
@@ -39,8 +40,14 @@ public class PhysicsListener extends BaseListener<SkylandsPlusMinus> {
         }
     }
     
-    @EventHandler(priority=EventPriority.HIGH, ignoreCancelled=true)
-    public void preventSkylandsSleep(PlayerBedEnterEvent event) {
+    @EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
+    public void preventSkylandsSleep(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+        
+        if (event.getClickedBlock().getType() != Material.BED_BLOCK && event.getClickedBlock().getType() != Material.BED)
+            return;
+        
         Location loc = event.getPlayer().getLocation();
         if (loc.getWorld().getEnvironment() != World.Environment.NORMAL || (
                 !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator)
@@ -49,7 +56,7 @@ public class PhysicsListener extends BaseListener<SkylandsPlusMinus> {
             return;
         }
         
-        event.getBed().getLocation().getWorld().createExplosion(event.getBed().getLocation(), 1f);
+        event.getClickedBlock().getLocation().getWorld().createExplosion(event.getClickedBlock().getLocation(), 5f, true);
         event.setCancelled(true);
     }
 }
