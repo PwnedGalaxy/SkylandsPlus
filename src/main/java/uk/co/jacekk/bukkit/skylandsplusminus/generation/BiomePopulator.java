@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.skylandsplus.generation;
+package uk.co.jacekk.bukkit.skylandsplusminus.generation;
 
 import java.util.Random;
 

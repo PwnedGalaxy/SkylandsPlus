@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.skylandsplus;
+package uk.co.jacekk.bukkit.skylandsplusminus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import org.bukkit.generator.ChunkGenerator;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
-import uk.co.jacekk.bukkit.skylandsplus.listeners.MobSpawnListener;
-import uk.co.jacekk.bukkit.skylandsplus.listeners.PhysicsListener;
+import uk.co.jacekk.bukkit.skylandsplusminus.listeners.MobSpawnListener;
+import uk.co.jacekk.bukkit.skylandsplusminus.listeners.PhysicsListener;
 
-public class SkylandsPlus extends BasePlugin {
+public class SkylandsPlusMinus extends BasePlugin {
     private PlayerMovementWorker playerMovementWorker;
     private TimeSyncWorker timeSyncWorker;
     public List<Entity> fallingEntities = new ArrayList<Entity>();
@@ -46,7 +46,7 @@ public class SkylandsPlus extends BasePlugin {
 		if(id == null || id.isEmpty()){
 			id = "offset=0";
 		}
-		return new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator(id);
+		return new uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator(id);
 	}
 	
 }

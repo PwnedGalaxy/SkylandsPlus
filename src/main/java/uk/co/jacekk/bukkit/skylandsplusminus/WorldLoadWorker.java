@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.jacekk.bukkit.skylandsplus;
+package uk.co.jacekk.bukkit.skylandsplusminus;
 
 import java.util.ArrayList;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
-import uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator;
+import uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator;
 
 /**
  *
  * @author sl
  */
 public class WorldLoadWorker implements Runnable {
-    private SkylandsPlus plugin;
+    private SkylandsPlusMinus plugin;
 
-    public WorldLoadWorker(SkylandsPlus plugin) {
+    public WorldLoadWorker(SkylandsPlusMinus plugin) {
         this.plugin = plugin;
     }
 
@@ -41,7 +41,7 @@ public class WorldLoadWorker implements Runnable {
             String skylandsLevelName = level+"_skylands";
             WorldCreator wc = new WorldCreator(skylandsLevelName);
             wc = wc.seed(this.plugin.getServer().getWorld(level).getSeed());
-            wc = wc.generator(new uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator("offset=128,village,canyon,mineshaft,village,largefeatures,mushroom,swampland"));
+            wc = wc.generator(new uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator("offset=128,village,canyon,mineshaft,village,largefeatures,mushroom,swampland"));
             wc = wc.environment(World.Environment.NORMAL);
             wc = wc.type(WorldType.NORMAL);
             wc = wc.generateStructures(true);

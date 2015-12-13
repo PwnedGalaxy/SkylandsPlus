@@ -1,4 +1,4 @@
-package uk.co.jacekk.bukkit.skylandsplus.listeners;
+package uk.co.jacekk.bukkit.skylandsplusminus.listeners;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,12 +11,12 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
-import uk.co.jacekk.bukkit.skylandsplus.SkylandsPlus;
-import uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator;
+import uk.co.jacekk.bukkit.skylandsplusminus.SkylandsPlusMinus;
+import uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator;
 
-public class PhysicsListener extends BaseListener<SkylandsPlus> {
+public class PhysicsListener extends BaseListener<SkylandsPlusMinus> {
     
-	public PhysicsListener(SkylandsPlus plugin){
+	public PhysicsListener(SkylandsPlusMinus plugin){
 		super(plugin);
 	}
 	
@@ -43,7 +43,7 @@ public class PhysicsListener extends BaseListener<SkylandsPlus> {
     public void preventSkylandsSleep(PlayerBedEnterEvent event) {
         Location loc = event.getPlayer().getLocation();
         if (loc.getWorld().getEnvironment() != World.Environment.NORMAL || (
-                !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplus.generation.ChunkGenerator)
+                !(loc.getWorld().getGenerator() instanceof uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator)
                 && !loc.getWorld().getName().endsWith("_skylands")
                 )) {
             return;
