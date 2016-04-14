@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.Blocks;
-import net.minecraft.server.v1_8_R3.ChunkSnapshot;
-import net.minecraft.server.v1_8_R3.IChunkProvider;
-import net.minecraft.server.v1_8_R3.NoiseGeneratorOctaves;
-import net.minecraft.server.v1_8_R3.WorldGenCanyon;
-import net.minecraft.server.v1_8_R3.WorldGenCaves;
-import net.minecraft.server.v1_8_R3.WorldGenCavesHell;
-import net.minecraft.server.v1_8_R3.WorldGenMineshaft;
-import net.minecraft.server.v1_8_R3.WorldGenNether;
-import net.minecraft.server.v1_8_R3.WorldGenStronghold;
-import net.minecraft.server.v1_8_R3.WorldGenVillage;
-import net.minecraft.server.v1_8_R3.WorldGenLargeFeature;
+import net.minecraft.server.v1_9_R1.Block;
+import net.minecraft.server.v1_9_R1.Blocks;
+import net.minecraft.server.v1_9_R1.ChunkSnapshot;
+import net.minecraft.server.v1_9_R1.IChunkProvider;
+import net.minecraft.server.v1_9_R1.NoiseGeneratorOctaves;
+import net.minecraft.server.v1_9_R1.WorldGenCanyon;
+import net.minecraft.server.v1_9_R1.WorldGenCaves;
+import net.minecraft.server.v1_9_R1.WorldGenCavesHell;
+import net.minecraft.server.v1_9_R1.WorldGenMineshaft;
+import net.minecraft.server.v1_9_R1.WorldGenNether;
+import net.minecraft.server.v1_9_R1.WorldGenStronghold;
+import net.minecraft.server.v1_9_R1.WorldGenVillage;
+import net.minecraft.server.v1_9_R1.WorldGenLargeFeature;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_9_R1.generator.CraftChunkData;
 import org.bukkit.generator.BlockPopulator;
 
 public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
@@ -65,7 +66,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 	private boolean no_swampland = true;
 	private Biome onlybiome, plains, desert, forest, jungle, taiga, ice, ocean;
 	private Biome mushroom = Biome.FOREST;
-	private Biome swampland = Biome.ICE_PLAINS;
+	private Biome swampland = Biome.ICE_FLATS;
 	byte liquid_id;
 	
 	public ChunkGenerator(String id){
@@ -402,13 +403,13 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 						}
 					}
 					if (no_ice == true){
-						if (biome == Biome.ICE_PLAINS || biome == Biome.ICE_MOUNTAINS){
+						if (biome == Biome.ICE_FLATS || biome == Biome.ICE_MOUNTAINS){
 							biomes.setBiome(x, z, ice);
 							biome = ice;
 						}
 					}
 					if (no_mushroom == true){
-						if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_SHORE){
+						if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_ISLAND_SHORE){
 							biomes.setBiome(x, z, mushroom);
 							biome = mushroom;
 						}
@@ -433,7 +434,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 				}else if (biome == Biome.HELL){
 					b1 = Blocks.NETHERRACK;
 					b2 = Blocks.NETHERRACK;
-				}else if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_SHORE){
+				}else if (biome == Biome.MUSHROOM_ISLAND || biome == Biome.MUSHROOM_ISLAND_SHORE){
 					b1 = Blocks.MYCELIUM;
 					b2 = Blocks.DIRT;
 				}else{
@@ -469,7 +470,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 	}
 	
 	@Override
-	public byte[][] generateBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes){
+	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes){
 		Environment environment = world.getEnvironment();
 		
 		if (this.random == null){
@@ -496,7 +497,7 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			}
 		}
 		
-		net.minecraft.server.v1_8_R3.World mcWorld = ((CraftWorld) world).getHandle();
+		net.minecraft.server.v1_9_R1.World mcWorld = ((CraftWorld) world).getHandle();
 		
 		Block[] blocks = new Block[65536];
 		
@@ -504,30 +505,30 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 		
 		this.shapeLand(world, chunkX, chunkZ, blocks);
 		
-                IChunkProvider provider = ((CraftWorld) world).getHandle().chunkProviderServer;
+                IChunkProvider provider = ((CraftWorld) world).getHandle().getChunkProviderServer();
                 ChunkSnapshot cs = new ChunkSnapshot();
                 
 		if (environment == Environment.NORMAL){
-			this.caveGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+			this.caveGen.a(mcWorld, chunkX, chunkZ, cs);
 			
 			if (canyon == true){
-				this.canyonGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+				this.canyonGen.a(mcWorld, chunkX, chunkZ, cs);
 			}
 			if (stronghold == true){
-				this.strongholdGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+				this.strongholdGen.a(mcWorld, chunkX, chunkZ, cs);
 			}
 			if (mineshaft == true){
-				this.mineshaftGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+				this.mineshaftGen.a(mcWorld, chunkX, chunkZ, cs);
 			}
 			if (village == true){
-				this.villageGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+				this.villageGen.a(mcWorld, chunkX, chunkZ, cs);
 			}
 			if (largefeature == true){
-				this.largefeatureGen.a(provider, mcWorld, chunkX, chunkZ, cs);
+				this.largefeatureGen.a(mcWorld, chunkX, chunkZ, cs);
 			}
 		}else if (environment == Environment.NETHER){
-			this.caveGenNether.a(provider, mcWorld, chunkX, chunkZ, cs);
-			this.genNetherFort.a(provider, mcWorld, chunkX, chunkZ, cs);
+			this.caveGenNether.a(mcWorld, chunkX, chunkZ, cs);
+			this.genNetherFort.a(mcWorld, chunkX, chunkZ, cs);
 		}
 		
 		this.decorateLand(chunkX, chunkZ, blocks, biomes);
@@ -541,23 +542,37 @@ public class ChunkGenerator extends org.bukkit.generator.ChunkGenerator {
 			cut_bottom = -offset;
 		}
 		
-		byte[][] chunk = new byte[16][4096];
+		ChunkData chunk = new CraftChunkData(world);
 		
 		// TODO: Do this in a nice way.
 		for (int x = 0; x < 16; ++x){
-			for (int y = 0 + cut_bottom; y < 128 - cut_top; ++y){
-				for (int z = 0; z < 16; ++z){
-					chunk[y + offset >> 4][((y + offset & 0xF) << 8) | (z << 4) | x] = ((Integer) Block.REGISTRY.b(blocks[(x * 16 + z) * 128 + y])).byteValue();
-					
-					if (bedrock == true && y == 0){
-						chunk[y - cut_bottom >> 4][((y - cut_bottom & 0xF) << 8) | (z << 4) | x] = (byte) Material.BEDROCK.getId();
-					}
-					
-					if (liquid > 0 && y <= liquid - 1 + cut_bottom && chunk[y - cut_bottom >> 4][((y - cut_bottom & 0xF) << 8) | (z << 4) | x] == 0){
-						chunk[y - cut_bottom >> 4][((y - cut_bottom & 0xF) << 8) | (z << 4) | x] = liquid_id;
-					}
-				}
-			}
+                    for (int y = 0 + cut_bottom; y < 128 - cut_top; ++y){
+                        for (int z = 0; z < 16; ++z){
+                            Block block = blocks[(x * 16 + z) * 128 + y];
+                            Material mat;
+                            
+                            if (block == null) {
+                                mat = Material.AIR;
+                            } else {
+                                // TODO: Find a way to get materials by Minecraft material name
+                                // - block IDs are deprecated and block names does not exactly
+                                // map 1:1 to a material.
+                                
+                                // As of MC 1.9.2, Block.a() returns the Minecraft material name,
+                                // but I can't see a way to look up materials using it.
+                                mat = Material.getMaterial((Integer) Block.REGISTRY.a(block));
+                            }
+                            chunk.setBlock(x, y + offset, z, mat);
+
+                            if (bedrock == true && y == 0){
+                                chunk.setBlock(x, y - cut_bottom, z, Material.BEDROCK);
+                            }
+
+                            if (liquid > 0 && y <= liquid - 1 + cut_bottom && chunk.getType(x, y - cut_bottom, z) == Material.AIR) {
+                                chunk.setBlock(x, y - cut_bottom, z, Material.getMaterial(liquid_id));
+                            }
+                        }
+                    }
 		}
 		
 		return chunk;

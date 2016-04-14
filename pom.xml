@@ -19,30 +19,23 @@
 	
 	<repositories>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public/</url>
-		</repository>
-		
-		<repository>
-			<id>jacekk-repo</id>
-			<url>http://bukkit.jacekk.co.uk:8000/plugin/repository/everything/</url>
+			<id>spigot</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 	
 	<dependencies>
 		<dependency>
-			<groupId>uk.co.jacekk.bukkit</groupId>
-			<artifactId>baseplugin</artifactId>
-			<version>${baseplugin.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.8.8-R0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                    <version>1.9.2-R0.1-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>craftbukkit</artifactId>
+                    <version>1.9.2-R0.1-SNAPSHOT</version>
+                    <scope>compile</scope>
+                </dependency>
 	</dependencies>
 	
 	<build>
@@ -75,20 +68,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<finalName>${project.name}</finalName>
-					<artifactSet>
-						<includes>
-							<include>uk.co.jacekk.bukkit:baseplugin</include>
-						</includes>
-					</artifactSet>
-					<relocations>
-						<relocation>
-							<pattern>uk.co.jacekk.bukkit.baseplugin</pattern>
-							<shadedPattern>uk.co.jacekk.bukkit.baseplugin.v${baseplugin.package}</shadedPattern>
-						</relocation>
-					</relocations>
-				</configuration>
 			</plugin>
 			
 			<plugin>

@@ -5,20 +5,21 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.skylandsplusminus.SkylandsPlusMinus;
 import uk.co.jacekk.bukkit.skylandsplusminus.generation.ChunkGenerator;
 
-public class PhysicsListener extends BaseListener<SkylandsPlusMinus> {
+public class PhysicsListener implements Listener {
+        SkylandsPlusMinus plugin;
     
 	public PhysicsListener(SkylandsPlusMinus plugin){
-		super(plugin);
+		this.plugin = plugin;
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

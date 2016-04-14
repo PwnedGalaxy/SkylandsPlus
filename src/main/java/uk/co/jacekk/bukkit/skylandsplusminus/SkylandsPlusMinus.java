@@ -10,28 +10,24 @@ import org.bukkit.entity.Entity;
 
 import org.bukkit.generator.ChunkGenerator;
 
-import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
+import org.bukkit.plugin.java.JavaPlugin;
 import uk.co.jacekk.bukkit.skylandsplusminus.listeners.MobSpawnListener;
 import uk.co.jacekk.bukkit.skylandsplusminus.listeners.PhysicsListener;
 
-public class SkylandsPlusMinus extends BasePlugin {
+public class SkylandsPlusMinus extends JavaPlugin {
     private PlayerMovementWorker playerMovementWorker;
     private TimeSyncWorker timeSyncWorker;
     public List<Entity> fallingEntities = new ArrayList<Entity>();
     public Map<World, World> timeSyncTable = new HashMap<World, World>();
 	
 	public void onEnable(){
-		super.onEnable(true);
 		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
-		
-		if (this.config.getBoolean(Config.PREVENT_SAND_FALLING)){
-			this.pluginManager.registerEvents(new PhysicsListener(this), this);
+		if (true /*|| Config.PREVENT_SAND_FALLING*/){
+			this.getServer().getPluginManager().registerEvents(new PhysicsListener(this), this);
 		}
 		
-		if (this.config.getBoolean(Config.RESTRICT_MOB_SPAWNING)){
-			this.pluginManager.registerEvents(new MobSpawnListener(this), this);
+		if (true /*|| Config.RESTRICT_MOB_SPAWNING*/){
+			this.getServer().getPluginManager().registerEvents(new MobSpawnListener(), this);
 		}
                 
             this.playerMovementWorker = new PlayerMovementWorker(this);
